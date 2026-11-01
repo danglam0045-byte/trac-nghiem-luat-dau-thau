@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm Luật Đấu thầu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Inter & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col">
+
+    <!-- TOP NAVBAR -->
+    <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-lg leading-tight tracking-tight text-slate-900 dark:text-white">Trắc Nghiệm Luật Đấu Thầu</h1>
+                        <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-brand-100 text-brand-700 dark:bg-brand-900/50 dark:text-brand-300">2026</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="headerSummary">25 câu hỏi · Chuẩn hóa pháp luật</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Actions -->
+            <div class="flex items-center gap-2">
+                <button id="searchBtn" title="Tra cứu câu hỏi" class="p-2.5 sm:px-3.5 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center gap-2 font-medium text-sm transition">
+                    <i class="fa-solid fa-magnifying-glass text-brand-500"></i>
+                    <span class="hidden sm:inline">Tra cứu</span>
+                </button>
+                <button id="exportBtn" title="Xuất Ngân hàng câu hỏi ra file CSV" class="p-2.5 sm:px-3.5 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center gap-2 font-medium text-sm transition">
+                    <i class="fa-solid fa-file-excel text-emerald-500"></i>
+                    <span class="hidden sm:inline">Xuất CSV</span>
+                </button>
+                <button id="themeToggleBtn" title="Chuyển giao diện Sáng/Tối" class="p-2.5 sm:w-10 sm:h-10 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- DASHBOARD VIEW -->
+        <section id="homeView" class="space-y-6">
+            <!-- HERO BANNER -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-950 text-white p-6 sm:p-8 shadow-2xl border border-slate-800">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-3 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-400/30 text-brand-300 text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-scale-balanced text-amber-400"></i> Ôn Thi Pháp Luật Đấu Thầu
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                            Ngân hàng 25 Câu Hỏi Luật Đấu Thầu
+                        </h2>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Luyện tập trắc nghiệm chuyên sâu, làm bài thi ngẫu nhiên hoặc thi thử có bấm giờ. Tự động theo dõi các câu làm sai để luyện lại đến khi đạt điểm tối đa.
+                        </p>
+                    </div>
+
+                    <!-- STATS DASHBOARD CARD -->
+                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 self-start md:self-auto min-w-[260px] justify-around">
+                        <div class="text-center px-2">
+                            <span class="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Hoàn thành</span>
+                            <span class="text-2xl sm:text-3xl font-black text-emerald-400" id="donePartsCount">0 / 0</span>
+                            <span class="block text-[11px] text-slate-400 font-semibold mt-0.5">Phần học</span>
+                        </div>
+                        <div class="h-10 w-[1px] bg-white/20"></div>
+                        <div class="text-center px-2">
+                            <span class="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Câu đang sai</span>
+                            <span class="text-2xl sm:text-3xl font-black text-rose-400" id="wrongTotalCount">0</span>
+                            <span class="block text-[11px] text-slate-400 font-semibold mt-0.5">cần ôn lại</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK MODES BUTTONS -->
+                <div class="relative z-10 mt-8 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button id="randomQuizBtn" class="flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-sm transition transform active:scale-95">
+                        <i class="fa-solid fa-dice text-amber-400 text-base"></i> Đề Ngẫu Nhiên (15 câu)
+                    </button>
+                    <button id="mockExamBtn" class="flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 transition transform active:scale-95">
+                        <i class="fa-solid fa-clock text-sky-300 text-base"></i> Thi Thử Toàn Bộ (25 câu - 30')
+                    </button>
+                    <button id="wrongQuizBtn" class="flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 font-bold text-sm transition transform active:scale-95">
+                        <i class="fa-solid fa-fire text-rose-400 text-base"></i> Ôn Câu Sai (<span id="wrongBtnN">0</span>)
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGS & RECENT HISTORY SECTION -->
+            <div class="bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-5 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-brand-500"></i> Nhật Ký 5 Lượt Thi Gần Nhất
+                    </h3>
+                    <button id="clearHistoryBtn" class="text-xs text-slate-400 hover:text-rose-500 font-medium transition flex items-center gap-1">
+                        <i class="fa-regular fa-trash-can"></i> Xóa nhật ký
+                    </button>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs sm:text-sm">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-semibold border-b border-slate-200 dark:border-slate-700">
+                            <tr>
+                                <th class="py-3 px-4">#</th>
+                                <th class="py-3 px-4">Thời gian</th>
+                                <th class="py-3 px-4">Chế độ</th>
+                                <th class="py-3 px-4">Điểm số</th>
+                                <th class="py-3 px-4">Số câu đúng</th>
+                                <th class="py-3 px-4">Thời lượng</th>
+                                <th class="py-3 px-4">Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody" class="divide-y divide-slate-100 dark:divide-slate-700/50 font-medium">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PARTS GRID -->
+            <div>
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-brand-500"></i> Danh Sách Phần Luyện Tập
+                </h3>
+                <div id="partsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Cards injected dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ VIEW -->
+        <section id="quizView" class="hidden space-y-4 max-w-4xl mx-auto">
+            <!-- TOP QUIZ HEADER CONTROLS -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <button id="exitQuizBtn" class="text-slate-500 hover:text-slate-800 dark:hover:text-white text-sm font-bold flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Thoát
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <span id="partLabelPill" class="px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 font-extrabold text-xs">Part</span>
+                        <span id="timerPill" class="hidden px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 font-mono font-bold text-xs">
+                            <i class="fa-solid fa-clock"></i> <span id="timerDisplay">60:00</span>
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="shuffleOptionsBtn" title="Đảo thứ tự các phương án" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                            <i class="fa-solid fa-shuffle text-brand-500"></i> Đảo đáp án
+                        </button>
+                        <span id="correctCounter" class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold text-xs">✓ 0</span>
+                        <span id="incorrectCounter" class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold text-xs">✗ 0</span>
+                    </div>
+                </div>
+
+                <!-- PROGRESS BAR & COUNT -->
+                <div>
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-1.5">
+                        <span id="questionCounter">Câu 1 / 25</span>
+                        <span id="progressPercentage">0%</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div id="progressBar" class="h-full bg-brand-600 transition-all duration-300 w-0"></div>
+                    </div>
+                </div>
+
+                <!-- AUTO NEXT SETTINGS -->
+                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-700/50 flex-wrap gap-2">
+                    <label class="flex items-center gap-2 cursor-pointer font-medium select-none">
+                        <input type="checkbox" id="autoNextToggle" checked class="rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+                        Tự chuyển câu sau khi chọn
+                    </label>
+                    <div class="flex items-center gap-1.5">
+                        <span>Chờ:</span>
+                        <select id="autoNextDelay" class="bg-slate-100 dark:bg-slate-700 border-0 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:ring-1 focus:ring-brand-500">
+                            <option value="0.7">0.7 giây</option>
+                            <option value="1" selected>1.0 giây</option>
+                            <option value="2">2.0 giây</option>
+                            <option value="0">Không chuyển</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION CARD -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-md space-y-6">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-400">
+                    <span id="questionQid" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Mã câu: #1</span>
+                    <span>Luật Đấu Thầu Hiện Hành</span>
+                </div>
+
+                <h3 id="questionText" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white leading-snug">
+                    <!-- Text inserted dynamically -->
+                </h3>
+
+                <!-- OPTIONS -->
+                <div id="optionsList" class="space-y-3">
+                    <!-- Options inserted dynamically -->
+                </div>
+
+                <!-- FEEDBACK PANEL -->
+                <div id="feedbackBox" class="hidden p-4 rounded-2xl text-sm font-medium border">
+                    <!-- Feedback inserted dynamically -->
+                </div>
+
+                <!-- FOOTER BUTTONS -->
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button id="prevQuestionBtn" class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 font-bold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition disabled:opacity-30">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> Câu trước
+                    </button>
+                    <button id="nextQuestionBtn" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 transition">
+                        Câu tiếp <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULT VIEW -->
+        <section id="resultView" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-xl text-center space-y-6">
+                <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-4xl shadow-xl shadow-emerald-500/30">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 dark:text-white">Hoàn Thành Bài Kiểm Tra!</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1" id="resultSubtitle">Kết quả luyện thi Luật Đấu thầu của bạn</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Điểm số</span>
+                        <span id="finalScore" class="text-2xl sm:text-3xl font-black text-brand-600 dark:text-brand-400">0/10</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Số câu đúng</span>
+                        <span id="finalCorrect" class="text-2xl sm:text-3xl font-black text-emerald-500">0/25</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Thời gian</span>
+                        <span id="finalTime" class="text-2xl sm:text-3xl font-black text-sky-500">00:00</span>
+                    </div>
+                </div>
+
+                <div id="resultMessage" class="text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <!-- Injected message -->
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                    <button id="backHomeBtn" class="flex-1 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-house mr-1"></i> Trang chủ
+                    </button>
+                    <button id="retryWrongBtn" class="flex-1 py-3 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg shadow-rose-600/30 transition">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Luyện lại câu sai
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SEARCH MODAL -->
+    <div id="searchModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                <i class="fa-solid fa-magnifying-glass text-brand-500 text-lg"></i>
+                <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm (vd: hủy thầu, cấm, thời hiệu...)" class="flex-1 bg-transparent border-0 outline-none text-slate-800 dark:text-white placeholder-slate-400 font-medium text-sm">
+                <button id="closeSearchBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="p-4 overflow-y-auto custom-scrollbar flex-1 space-y-3">
+                <p class="text-center text-slate-400 text-sm py-8">Nhập từ khóa để bắt đầu tra cứu trong 25 câu hỏi...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // 1. BANK DATA - 25 QUESTIONS LUẬT ĐẤU THẦU
+        const BANK = [
+            {
+                id: 1,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Theo quy định pháp luật về đấu thầu, đấu thầu là gì?",
+                options: [
+                    "Là quá trình lựa chọn nhà thầu để ký kết, thực hiện hợp đồng cung cấp dịch vụ tư vấn, dịch vụ phi tư vấn, mua sắm hàng hóa, xây lắp trên cơ sở bảo đảm cạnh tranh, công bằng, minh bạch, hiệu quả kinh tế và trách nhiệm giải trình",
+                    "Là quá trình lựa chọn nhà đầu tư để ký kết, thực hiện hợp đồng dự án đầu tư kinh doanh trên cơ sở bảo đảm cạnh tranh, công bằng, minh bạch, hiệu quả kinh tế và trách nhiệm giải trình",
+                    "Là quá trình lựa chọn đơn vị để thực hiện hợp đồng thông qua các quy trình, thủ tục do pháp luật đấu thầu quy định.",
+                    "Phương án A và B đều đúng"
+                ],
+                answer: 3
+            },
+            {
+                id: 2,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Theo quy định pháp luật về đấu thầu, hàng hóa gồm?",
+                options: [
+                    "Máy móc, thiết bị, nguyên liệu, nhiên liệu, vật liệu, vật tư, phụ tùng; sản phẩm; phương tiện; hàng tiêu dùng, phần mềm thương mại",
+                    "Thuốc, hóa chất, vật tư xét nghiệm, thiết bị y tế",
+                    "Phương án A và B đều đúng",
+                    "Logistics, bảo hiểm, quảng cáo, nghiệm thu chạy thử, chụp ảnh vệ tinh"
+                ],
+                answer: 2
+            },
+            {
+                id: 3,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Trường hợp nào sau đây cơ quan, tổ chức, doanh nghiệp được tự quyết định việc lựa chọn nhà thầu trên cơ sở bảo đảm công khai, minh bạch, hiệu quả và trách nhiệm giải trình?",
+                options: [
+                    "Thực hiện gói thầu thuộc dự án sử dụng vốn đầu tư công của cơ quan nhà nước",
+                    "Thực hiện gói thầu thuộc dự án sử dụng vốn đầu tư công của đơn vị sự nghiệp công lập bảo đảm một phần chi thường xuyên",
+                    "Thực hiện gói thầu thuộc dự án sử dụng vốn ngân sách nhà nước của doanh nghiệp nhà nước",
+                    "Lựa chọn nhà thầu của doanh nghiệp nhà nước không sử dụng vốn ngân sách nhà nước, đơn vị sự nghiệp công lập tự bảo đảm chi thường xuyên và chi đầu tư, đơn vị sự nghiệp công lập tự bảo đảm chi thường xuyên không sử dụng ngân sách nhà nước"
+                ],
+                answer: 3
+            },
+            {
+                id: 4,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Thành viên tổ chuyên gia thuộc tổ chức tư vấn đấu thầu cần có tối thiểu bao nhiêu năm kinh nghiệm trong lĩnh vực liên quan?",
+                options: [
+                    "01 năm công tác thuộc một trong các lĩnh vực liên quan đến nội dung pháp lý, kỹ thuật, tài chính của gói thầu",
+                    "02 năm công tác thuộc một trong các lĩnh vực liên quan đến nội dung pháp lý, kỹ thuật, tài chính của gói thầu",
+                    "03 năm công tác thuộc một trong các lĩnh vực liên quan đến nội dung pháp lý, kỹ thuật, tài chính của gói thầu",
+                    "Không có quy định về số năm kinh nghiệm"
+                ],
+                answer: 2
+            },
+            {
+                id: 5,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Đơn vị sự nghiệp công lập A đã trúng thầu gói thầu tổ chức lớp đào tạo cán bộ cho UBND tỉnh X sử dụng vốn ngân sách địa phương. Đơn vị sự nghiệp công lập A có phải tổ chức lựa chọn nhà thầu theo Luật Đấu thầu để thuê dịch vụ hậu cần (như địa điểm ăn nghỉ, photo tài liệu, hội trường tổ chức) hay không?",
+                options: [
+                    "Phải lựa chọn nhà thầu theo quy định của Luật Đấu thầu",
+                    "Căn cứ vào hợp đồng quy định giữa đơn vị A và UBND tỉnh X",
+                    "Đơn vị A được tự quyết định việc mua sắm trên cơ sở bảo đảm công khai, minh bạch, hiệu quả và trách nhiệm giải trình",
+                    "Căn cứ theo phân cấp quyết định mua sắm của UBND tỉnh X"
+                ],
+                answer: 2
+            },
+            {
+                id: 6,
+                chapter: "Phần 1: Quy định chung & Phạm vi điều chỉnh",
+                question: "Sở Y tế tỉnh A được doanh nghiệp trong nước tài trợ 5 tỷ đồng để mua sắm thuốc phục vụ khám chữa bệnh cho người nghèo, hỏi Sở Y tế có phải tổ chức đấu thầu thuốc theo quy định của Luật Đấu thầu không?",
+                options: [
+                    "Sở Y tế A được tự quyết định việc mua sắm trên cơ sở bảo đảm công khai, minh bạch, hiệu quả và trách nhiệm giải trình trong trường hợp nhà tài trợ yêu cầu không lựa chọn nhà thầu theo quy định của Luật Đấu thầu",
+                    "Sở Y tế A phải tổ chức lựa chọn nhà thầu theo quy định của Luật Đấu thầu",
+                    "Trong mọi trường hợp Sở Y tế A không phải thực hiện theo Luật Đấu thầu do đây là nguồn doanh nghiệp trong nước tài trợ",
+                    "Phải xin ý kiến của UBND tỉnh A để có cơ sở xác định có phải tổ chức lựa chọn nhà thầu theo Luật Đấu thầu hay không"
+                ],
+                answer: 0
+            },
+            {
+                id: 7,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Trường hợp nào sau đây Công ty B khi tham dự gói thầu xây lắp X thuộc Dự án Y được kết luận là đáp ứng về bảo đảm cạnh tranh trong đấu thầu?",
+                options: [
+                    "Công ty B sử dụng nhà thầu phụ là công ty A, công ty A là nhà thầu tư vấn lập Chương V yêu cầu kỹ thuật cho E-HSMT của gói thầu xây lắp X",
+                    "Công ty B tham dự gói thầu xây lắp X đồng thời là nhà thầu tư vấn lập Chương V yêu cầu kỹ thuật của E-HSMT của gói thầu xây lắp X.",
+                    "Công ty B sử dụng nhà thầu phụ là công ty tư vấn C, công ty tư vấn C sở hữu 30% cổ phần của công ty A và công ty A là nhà thầu tư vấn thiết kế kỹ thuật cho dự án Y",
+                    "Công ty A là nhà thầu tư vấn lập hồ sơ mời thầu gói thầu xây lắp X có sở hữu 30% vốn góp của Công ty B"
+                ],
+                answer: 2
+            },
+            {
+                id: 8,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Trường hợp thuê đơn vị tư vấn lập hồ sơ mời quan tâm, hồ sơ mời sơ tuyển, hồ sơ mời thầu, hồ sơ yêu cầu; đánh giá hồ sơ quan tâm, hồ sơ dự sơ tuyển, hồ sơ dự thầu, hồ sơ đề xuất, tổ chuyên gia được thành lập bởi?",
+                options: [
+                    "Người có thẩm quyền",
+                    "Chủ đầu tư",
+                    "Bên mời thầu",
+                    "Đơn vị tư vấn được chủ đầu tư lựa chọn"
+                ],
+                answer: 3
+            },
+            {
+                id: 9,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Trường hợp nào sau đây việc phê duyệt kế hoạch lựa chọn nhà thầu thuộc trách nhiệm của chủ đầu tư?",
+                options: [
+                    "Chủ đầu tư không có trách nhiệm phê duyệt kế hoạch lựa chọn nhà thầu",
+                    "Chủ đầu tư có trách nhiệm phê duyệt kế hoạch lựa chọn nhà thầu, trừ trường hợp chưa xác định được chủ đầu tư theo quy định của pháp luật",
+                    "Trường hợp gói thầu được thực hiện trước khi có quyết định phê duyệt dự án và chưa xác định được chủ đầu tư",
+                    "Chủ đầu tư chỉ được phê duyệt kế hoạch lựa chọn nhà thầu trong trường hợp được người có thẩm quyền ủy quyền"
+                ],
+                answer: 1
+            },
+            {
+                id: 10,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Thời hiệu áp dụng biện pháp cấm tham gia hoạt động đấu thầu là bao lâu?",
+                options: [
+                    "10 năm tính từ ngày xảy ra hành vi vi phạm",
+                    "10 năm tính từ ngày phát hiện ra hành vi vi phạm",
+                    "05 năm tính từ ngày phát hiện ra hành vi vi phạm",
+                    "05 năm tính từ ngày xảy ra hành vi vi phạm"
+                ],
+                answer: 0
+            },
+            {
+                id: 11,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Hành vi gian lận trong hoạt động đấu thầu sẽ bị cấm tham gia hoạt động đấu thầu trong thời gian bao lâu?",
+                options: [
+                    "Từ 06 tháng đến 01 năm",
+                    "02 năm",
+                    "Từ 01 năm đến 02 năm",
+                    "Từ 03 năm đến 05 năm"
+                ],
+                answer: 3
+            },
+            {
+                id: 12,
+                chapter: "Phần 2: Bảo đảm cạnh tranh & Trách nhiệm các bên",
+                question: "Thành viên A trong nhà thầu liên danh A-B thực hiện hành vi \"làm giả hoặc làm sai lệch thông tin, hồ sơ, tài liệu trong đấu thầu\" thì việc cấm tham gia hoạt động đấu thầu được xử lý như thế nào?",
+                options: [
+                    "Cấm tham gia hoạt động đấu thầu từ 03 năm đến 05 năm đối với thành viên A",
+                    "Cấm tham gia hoạt động đấu thầu từ 01 năm đến dưới 03 năm đối với thành viên A",
+                    "Cấm tham gia hoạt động đấu thầu từ 03 năm đến 05 năm đối với tất cả thành viên trong nhà thầu liên danh A-B",
+                    "Cấm tham gia hoạt động đấu thầu từ 01 năm đến 03 năm đối với tất cả thành viên trong nhà thầu liên danh A-B"
+                ],
+                answer: 0
+            },
+            {
+                id: 13,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Gói thầu đang xét là gói thầu giặt cho bệnh viện công lập (có tính chất công việc lặp lại theo chu kỳ qua các năm), có thời gian thực hiện gói thầu trong 3 năm với giá gói thầu là 12 tỷ đồng. Nhà thầu nào được xác định đáp ứng yêu cầu về giá trị hợp đồng tương tự khi tham dự gói thầu này?",
+                options: [
+                    "Nhà thầu A có 01 hợp đồng giặt là X cho bệnh viện công lập có thời gian thực hiện gói thầu là 48 tháng (đang trong quá trình thực hiện, chưa hoàn thành, chưa được thanh lý), nhưng tính đến thời điểm tham dự thầu, nhà thầu A đã thực hiện được 24 tháng, trong đó giá trị công việc đã được nghiệm thu 12 tháng đầu là 1,2 tỷ đồng;",
+                    "Nhà thầu B cung cấp 02 hợp đồng, trong đó có hợp đồng giặt X cho khách sạn tư nhân, thời gian thực hiện hợp đồng trong 06 tháng với giá trị là 300 triệu đồng; Hợp đồng giặt là Y cho bệnh viện công lập, thời gian thực hiện hợp đồng trong 24 tháng với giá trị là 3 tỷ đồng, trong đó giá trị công việc đã được nghiệm thu 12 tháng đầu là 1 tỷ đồng.",
+                    "Nhà thầu A và B đều đáp ứng",
+                    "Nhà thầu A và B đều không đáp ứng"
+                ],
+                answer: 2
+            },
+            {
+                id: 14,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Việc đánh giá E-HSDT gói thầu mua sắm hàng hóa theo quy trình 02 được thực hiện theo trình tự nào sau đây?",
+                options: [
+                    "Đánh giá E-HSDT của tất cả nhà thầu tham dự thầu về: tính hợp lệ của E-HSDT; năng lực và kinh nghiệm; kỹ thuật. Trường hợp nhà thầu không đáp ứng bước trước thì không tiếp tục đánh giá bước tiếp theo",
+                    "Đánh giá E-HSDT của nhà thầu xếp hạng thứ nhất về: tính hợp lệ của E-HSDT; năng lực và kinh nghiệm; kỹ thuật. Trường hợp nhà thầu xếp hạng thứ nhất không đáp ứng thì đánh giá đối với nhà thầu xếp hạng tiếp theo",
+                    "Đánh giá E-HSDT của nhà thầu xếp hạng thứ nhất về: tính hợp lệ của E-HSDT; kỹ thuật; tài chính; năng lực và kinh nghiệm. Trường hợp nhà thầu xếp hạng thứ nhất không đáp ứng thì đánh giá đối với nhà thầu xếp hạng tiếp theo",
+                    "Đánh giá E-HSDT của tất cả nhà thầu tham dự thầu về: tính hợp lệ của E-HSDT; kỹ thuật; tài chính; năng lực và kinh nghiệm. Trường hợp nhà thầu không đáp ứng bước trước thì không tiếp tục đánh giá bước tiếp theo"
+                ],
+                answer: 1
+            },
+            {
+                id: 15,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Tham gia lập, đồng thời tham gia thẩm định hồ sơ mời thầu đối với cùng một gói thầu sẽ bị cấm tham gia hoạt động đấu thầu trong thời gian bao lâu?",
+                options: [
+                    "02 năm",
+                    "Từ trên 02 năm đến 03 năm",
+                    "Từ trên 01 năm đến 02 năm",
+                    "Từ 06 tháng đến 01 năm"
+                ],
+                answer: 3
+            },
+            {
+                id: 16,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Trường hợp E-HSMT của gói thầu mua sắm hàng hóa có yêu cầu về cam kết, hợp đồng nguyên tắc bảo hành, bảo trì, duy tu, bảo dưỡng mà E-HSDT của nhà thầu không đính kèm các tài liệu này thì Chủ đầu tư xử lý như thế nào?",
+                options: [
+                    "Hồ sơ dự thầu của nhà thầu bị loại, không được xem xét, đánh giá",
+                    "Chủ đầu tư yêu cầu nhà thầu làm rõ, bổ sung tài liệu trong một khoảng thời gian phù hợp nhưng không ít hơn 03 ngày làm việc để làm cơ sở đánh giá E-HSDT",
+                    "Xin ý kiến người có thẩm quyền để xử lý tình huống trong đấu thầu trên cơ sở bảo đảm các mục tiêu của công tác đấu thầu",
+                    "Tiếp tục đánh giá E-HSDT, trường hơp nhà thầu trúng thầu thì yêu cầu nhà thầu bổ sung, làm rõ tài liệu"
+                ],
+                answer: 1
+            },
+            {
+                id: 17,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Đối với gói thầu mua sắm thiết bị y tế, tổ chức đấu thầu rộng rãi qua mạng gói thầu mua sắm thiết bị y tế, trường hợp nhà thầu dự thầu không đề xuất cụ thể ký mã hiệu, nhãn hiệu, xuất xứ, hãng sản xuất thì xử lý như thế nào?",
+                options: [
+                    "Chủ đầu tư yêu cầu nhà thầu bổ sung, làm rõ E-HSDT",
+                    "Chủ đầu tư tiếp tục đánh giá E-HSDT, trường hợp nhà thầu xếp thứ nhất thì yêu cầu nhà thầu bổ sung thông tin để hoàn thiện hợp đồng",
+                    "E-HSDT của nhà thầu bị đánh giá không đáp ứng và bị loại",
+                    "Xin ý kiến người có thẩm quyền để xử lý tình huống trong đấu thầu"
+                ],
+                answer: 2
+            },
+            {
+                id: 18,
+                chapter: "Phần 3: Đánh giá E-HSDT & Quy trình đấu thầu",
+                question: "Hủy thầu được thực hiện trong thời gian nào?",
+                options: [
+                    "Từ ngày có thời điểm đóng thầu đến khi có kết quả lựa chọn nhà thầu",
+                    "Từ ngày phát hành hồ sơ mời sơ tuyển, hồ sơ mời quan tâm, hồ sơ mời thầu, hồ sơ yêu cầu đến trước khi ký kết hợp đồng, thỏa thuận khung đối với mua sắm tập trung",
+                    "Từ ngày có thời điểm đóng thầu đến khi ký kết hợp đồng, thỏa thuận khung đối với mua sắm tập trung",
+                    "Từ ngày phát hành hồ sơ mời sơ tuyển, hồ sơ mời quan tâm, hồ sơ mời thầu, hồ sơ yêu cầu kể cả sau khi đã ký hợp đồng"
+                ],
+                answer: 1
+            },
+            {
+                id: 19,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Có 4 nhà thầu tham dự thầu gói thầu mua sắm hàng hóa áp dụng phương pháp giá thấp nhất, trong đó: Nhà thầu A, B, D là doanh nghiệp nhỏ và vừa do phụ nữ làm chủ. Nhà thầu A, B, C và D có giá dự thầu sau sửa lỗi, hiệu chỉnh sai lệch, trừ đi giá trị giảm giá lần lượt là: 95 tỷ đồng, 100 tỷ đồng, 100 tỷ đồng và 105 tỷ đồng. Nhà thầu A, B, C và D chứng minh được hàng hóa mình tham dự có tỷ lệ chi phí sản xuất trong nước lần lượt là: 20%, 40%, 45% và 60%. Trong trường hợp tất cả nhà thầu đều đáp ứng về kỹ thuật thì nhà thầu nào được xét duyệt trúng thầu?",
+                options: [
+                    "Nhà thầu A được xét duyệt trúng thầu",
+                    "Nhà thầu B được xét duyệt trúng thầu",
+                    "Nhà thầu C được xét duyệt trúng thầu",
+                    "Nhà thầu D được xét duyệt trúng thầu"
+                ],
+                answer: 1
+            },
+            {
+                id: 20,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Đối với đấu thầu qua mạng, khi tham dự gói thầu mua sắm hàng hóa, trong bảng đề xuất về hàng hóa (Mẫu số 10B chương IV), nhà thầu A chào \"theo catalog đính kèm\" thay vì kê khai thông tin theo Mẫu số 10B. Tổ chuyên gia đánh giá nội dung này trong E-HSDT của nhà thầu như thế nào là phù hợp?",
+                options: [
+                    "Tổ chuyên gia đánh giá nội dung này theo Catalog nhà thầu A đính kèm. Nội dung này được tiếp tục đánh giá khi Catalog không tham chiếu đến nhiều hơn 01 ký mã hiệu, nhãn hiệu, hãng sản xuất...cho một loại hàng hóa",
+                    "Báo cáo chủ đầu tư yêu cầu nhà thầu A làm rõ nội dung này nếu Catalog tham chiếu đến nhiều hơn 01 ký mã hiệu, nhãn hiệu, hãng sản xuất...cho một loại hàng hóa để làm cơ sở đánh giá",
+                    "E-HSDT của nhà thầu A không được xem xét, đánh giá",
+                    "Phương án A và B đều đúng"
+                ],
+                answer: 2
+            },
+            {
+                id: 21,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Đối với gói thầu tổ chức lựa chọn nhà thầu qua mạng, trong quá trình đánh giá E-HSDT, Chủ đầu tư nhận thấy nhà thầu có tên trong biên bản mở thầu đang bị khóa tài khoản theo quy định của pháp luật về đấu thầu, E-HSDT của nhà thầu bị đánh giá như thế nào?",
+                options: [
+                    "E-HSDT của nhà thầu được tiếp tục xem xét, đánh giá mà không cần phải mở khóa tài khoản trước khi ký hợp đồng",
+                    "E-HSDT của nhà thầu được tiếp tục xem xét, đánh giá nhưng chỉ được đề nghị trúng thầu khi thực hiện mở khóa tài khoản trước khi ký hợp đồng",
+                    "E-HSDT của nhà thầu không được tiếp tục xem xét, đánh giá",
+                    "Nhà thầu bị cấm tham gia hoạt động đấu thầu do có hành vi gian lận"
+                ],
+                answer: 2
+            },
+            {
+                id: 22,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Đối với đấu thầu qua mạng, nội dung nào sau đây do Hệ thống tự động đánh giá?",
+                options: [
+                    "Bảo đảm dự thầu",
+                    "Thoả thuận liên danh đối với nhà thầu liên danh",
+                    "Doanh thu bình quân 3 năm gần nhất của nhà thầu",
+                    "Các đáp án trên đều đúng"
+                ],
+                answer: 2
+            },
+            {
+                id: 23,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Trong quá trình đánh giá, Tổ chuyên gia phát hiện nhà thầu tham dự thầu trên Hệ thống mạng đấu thầu quốc gia đính kèm tệp tin có thiết lập mật khẩu thì xử lý thế nào?",
+                options: [
+                    "Yêu cầu nhà thầu nộp lại tệp tin không có thiết lập mật khẩu trên Hệ thống mạng đấu thầu quốc gia để xem xét, đánh giá",
+                    "Yêu cầu nhà thầu cung cấp mật khẩu để xem xét, đánh giá",
+                    "Tệp tin này không được xem xét, đánh giá",
+                    "Phương án A và B đều đúng"
+                ],
+                answer: 2
+            },
+            {
+                id: 24,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Đối với đấu thầu qua mạng, chức năng trả lời làm rõ E-HSDT trên Hệ thống mạng đấu thầu quốc gia được thực hiện bao nhiêu lần đối với mỗi yêu cầu làm rõ?",
+                options: [
+                    "01 lần",
+                    "02 lần",
+                    "03 lần",
+                    "Không giới hạn số lần"
+                ],
+                answer: 3
+            },
+            {
+                id: 25,
+                chapter: "Phần 4: Đấu thầu qua mạng (E-Procurement) & Tình huống đặc thù",
+                question: "Đối với đấu thầu qua mạng, sau khi đánh giá E-HSDT, tổ trưởng tổ chuyên gia phải thực hiện nội dung gì sau đây trên Hệ thống mạng đấu thầu quốc gia?",
+                options: [
+                    "Đính kèm bản scan báo cáo đánh giá E-HSDT (có chữ ký của tất cả thành viên trong tổ chuyên gia)",
+                    "Đính kèm bản scan báo cáo đánh giá E-HSDT (không cần có chữ ký của tất cả thành viên trong tổ chuyên gia)",
+                    "Đính kèm bản scan báo cáo đánh giá E-HSDT (chỉ cần chữ ký của tổ trưởng tổ chuyên gia)",
+                    "Tất cả các phương án đều sai"
+                ],
+                answer: 0
+            }
+        ];
+
+        // 2. STATE MANAGEMENT & STORAGE
+        const LETTERS = ['A', 'B', 'C', 'D'];
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let userAnswers = {}; // { questionId: selectedOptionIndex }
+        let currentOptionsOrder = {}; // { questionId: [shuffledArrayIndices] }
+        let quizMode = 'part'; // 'part', 'random', 'mock', 'wrong', 'search'
+        let currentPartTitle = '';
+        let startTime = 0;
+        let timerInterval = null;
+        let remainingSeconds = 0;
+        let autoNextTimer = null;
+
+        // Persistent storage keys
+        const STORAGE_WRONGS = 'ldt_wrongs_set';
+        const STORAGE_HISTORY = 'ldt_history_log';
+        const STORAGE_COMPLETED = 'ldt_completed_parts';
+
+        let wrongSet = new Set(JSON.parse(localStorage.getItem(STORAGE_WRONGS) || '[]'));
+        let historyLog = JSON.parse(localStorage.getItem(STORAGE_HISTORY) || '[]');
+        let completedParts = new Set(JSON.parse(localStorage.getItem(STORAGE_COMPLETED) || '[]'));
+
+        const parts = [...new Set(BANK.map(q => q.chapter))];
+
+        // Helper Functions
+        const $ = id => document.getElementById(id);
+
+        function shuffled(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        // 3. UI RENDER DASHBOARD
+        function renderHome() {
+            $('donePartsCount').textContent = `${completedParts.size} / ${parts.length}`;
+            $('wrongTotalCount').textContent = wrongSet.size;
+            $('wrongBtnN').textContent = wrongSet.size;
+
+            // Parts grid
+            const grid = $('partsGrid');
+            grid.innerHTML = '';
+
+            let offset = 0;
+            parts.forEach((pTitle, pIdx) => {
+                const pQuestions = BANK.filter(q => q.chapter === pTitle);
+                const isDone = completedParts.has(pTitle);
+
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-md hover:border-brand-300 dark:hover:border-brand-600 transition cursor-pointer flex flex-col justify-between space-y-4";
+                card.onclick = () => startQuiz(pQuestions, pTitle, 'part');
+
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 font-extrabold text-xs">
+                                Part ${pIdx + 1}
+                            </span>
+                            ${isDone ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold">✓ Hoàn thành</span>' : ''}
+                        </div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base leading-snug">${pTitle}</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Gồm ${pQuestions.length} câu hỏi chọn lọc</p>
+                    </div>
+                    <div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mb-3">
+                            <div class="bg-emerald-500 h-full transition-all duration-300" style="width: ${isDone ? '100%' : '0%'}"></div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span class="text-brand-600 dark:text-brand-400">${isDone ? 'Luyện lại' : 'Bắt đầu ngay'} →</span>
+                            <span class="text-slate-400">Câu ${offset + 1} - ${offset + pQuestions.length}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+                offset += pQuestions.length;
+            });
+
+            // History table
+            const tbody = $('historyBody');
+            if (historyLog.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Chưa có lịch sử làm bài.</td></tr>`;
+            } else {
+                tbody.innerHTML = historyLog.slice(0, 5).map((log, i) => `
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
+                        <td class="py-3 px-4 font-bold text-slate-400">#${historyLog.length - i}</td>
+                        <td class="py-3 px-4">${log.date}</td>
+                        <td class="py-3 px-4 font-bold text-brand-600 dark:text-brand-400">${log.mode}</td>
+                        <td class="py-3 px-4 font-extrabold text-slate-900 dark:text-white">${log.score}</td>
+                        <td class="py-3 px-4"><span class="text-emerald-600 dark:text-emerald-400 font-bold">${log.correct}</span>/${log.total}</td>
+                        <td class="py-3 px-4 font-mono">${log.time}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-0.5 rounded-md ${log.correct === log.total ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300'} font-bold text-xs">
+                                ${log.correct === log.total ? 'Xuất sắc' : 'Đã nộp'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // 4. NAVIGATION & QUIZ ENGINE
+        function switchView(viewName) {
+            $('homeView').classList.add('hidden');
+            $('quizView').classList.add('hidden');
+            $('resultView').classList.add('hidden');
+
+            if (viewName === 'home') {
+                clearInterval(timerInterval);
+                clearTimeout(autoNextTimer);
+                renderHome();
+                $('homeView').classList.remove('hidden');
+            } else if (viewName === 'quiz') {
+                $('quizView').classList.remove('hidden');
+            } else if (viewName === 'result') {
+                $('resultView').classList.remove('hidden');
+            }
+        }
+
+        function startQuiz(questions, label, mode) {
+            if (!questions || questions.length === 0) return;
+            currentQuestions = [...questions];
+            currentIndex = 0;
+            userAnswers = {};
+            currentOptionsOrder = {};
+            quizMode = mode;
+            currentPartTitle = label;
+            startTime = Date.now();
+
+            // Default option order: [0, 1, 2, 3]
+            currentQuestions.forEach(q => {
+                currentOptionsOrder[q.id] = [0, 1, 2, 3];
+            });
+
+            $('partLabelPill').textContent = label;
+
+            // Handle timer for Mock Exam (60s * total questions)
+            clearInterval(timerInterval);
+            if (mode === 'mock') {
+                remainingSeconds = currentQuestions.length * 72; // ~30 mins for 25 questions
+                $('timerPill').classList.remove('hidden');
+                $('timerDisplay').textContent = formatTime(remainingSeconds);
+                timerInterval = setInterval(() => {
+                    remainingSeconds--;
+                    $('timerDisplay').textContent = formatTime(remainingSeconds);
+                    if (remainingSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz(true);
+                    }
+                }, 1000);
+            } else {
+                $('timerPill').classList.add('hidden');
+            }
+
+            switchView('quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            if (!currentQuestions.length) return;
+
+            const q = currentQuestions[currentIndex];
+            const qId = q.id;
+
+            $('questionCounter').textContent = `Câu ${currentIndex + 1} / ${currentQuestions.length}`;
+            $('progressPercentage').textContent = `${Math.round(((currentIndex + 1) / currentQuestions.length) * 100)}%`;
+            $('progressBar').style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+            $('questionQid').textContent = `Mã câu: #${qId}`;
+            $('questionText').textContent = q.question;
+
+            $('correctCounter').textContent = `✓ ${Object.keys(userAnswers).filter(id => userAnswers[id] === BANK.find(b => b.id === Number(id)).answer).length}`;
+            $('incorrectCounter').textContent = `✗ ${Object.keys(userAnswers).filter(id => userAnswers[id] !== BANK.find(b => b.id === Number(id)).answer).length}`;
+
+            // Render options
+            const optionsList = $('optionsList');
+            optionsList.innerHTML = '';
+
+            const optionIndices = currentOptionsOrder[qId] || [0, 1, 2, 3];
+            const userChoice = userAnswers[qId];
+
+            optionIndices.forEach((origIdx, displayIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border-2 flex items-start gap-4 transition font-medium text-sm sm:text-base cursor-pointer transform active:scale-[0.99]";
+
+                let borderStyle = "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-brand-300 dark:hover:border-brand-600";
+                let badgeStyle = "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300";
+
+                if (userChoice !== undefined) {
+                    if (origIdx === q.answer) {
+                        borderStyle = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200";
+                        badgeStyle = "bg-emerald-500 text-white font-bold";
+                    } else if (origIdx === userChoice) {
+                        borderStyle = "border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200";
+                        badgeStyle = "bg-rose-500 text-white font-bold";
+                    }
+                }
+
+                btn.className += ` ${borderStyle}`;
+                btn.onclick = () => selectOption(qId, origIdx);
+
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${badgeStyle}">
+                        ${LETTERS[displayIdx]}
+                    </span>
+                    <span class="pt-0.5 leading-relaxed">${q.options[origIdx]}</span>
+                `;
+                optionsList.appendChild(btn);
+            });
+
+            // Feedback box
+            const feedbackBox = $('feedbackBox');
+            if (userChoice !== undefined) {
+                feedbackBox.classList.remove('hidden');
+                if (userChoice === q.answer) {
+                    feedbackBox.className = "p-4 rounded-2xl text-sm font-medium border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200";
+                    feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i> <b>Chính xác!</b> Bạn đã chọn đúng đáp án theo Luật Đấu Thầu.`;
+                } else {
+                    const correctLetterIdx = optionIndices.indexOf(q.answer);
+                    feedbackBox.className = "p-4 rounded-2xl text-sm font-medium border border-rose-200 bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200";
+                    feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 mr-2"></i> <b>Chưa đúng!</b> Đáp án đúng là <b>${LETTERS[correctLetterIdx]}</b>: ${q.options[q.answer]}`;
+                }
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            // Buttons state
+            $('prevQuestionBtn').disabled = currentIndex === 0;
+            $('nextQuestionBtn').innerHTML = currentIndex === currentQuestions.length - 1 ? 'Nộp bài <i class="fa-solid fa-check ml-1"></i>' : 'Câu tiếp <i class="fa-solid fa-chevron-right ml-1"></i>';
+        }
+
+        function selectOption(qId, selectedIndex) {
+            if (userAnswers[qId] !== undefined) return; // Locked after selection
+
+            userAnswers[qId] = selectedIndex;
+            const q = BANK.find(item => item.id === qId);
+
+            // Update wrong set
+            if (selectedIndex === q.answer) {
+                wrongSet.delete(qId);
+            } else {
+                wrongSet.add(qId);
+            }
+            localStorage.setItem(STORAGE_WRONGS, JSON.stringify([...wrongSet]));
+
+            renderQuestion();
+
+            // Auto next handler
+            if ($('autoNextToggle').checked) {
+                const delay = parseFloat($('autoNextDelay').value);
+                if (delay > 0) {
+                    clearTimeout(autoNextTimer);
+                    autoNextTimer = setTimeout(() => {
+                        if (currentIndex < currentQuestions.length - 1) {
+                            currentIndex++;
+                            renderQuestion();
+                        }
+                    }, delay * 1000);
+                }
+            }
+        }
+
+        function finishQuiz(isTimeout = false) {
+            clearInterval(timerInterval);
+            clearTimeout(autoNextTimer);
+
+            const total = currentQuestions.length;
+            let correctCount = 0;
+
+            currentQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.answer) {
+                    correctCount++;
+                    wrongSet.delete(q.id);
+                } else if (userAnswers[q.id] !== undefined) {
+                    wrongSet.add(q.id);
+                }
+            });
+
+            localStorage.setItem(STORAGE_WRONGS, JSON.stringify([...wrongSet]));
+
+            const elapsedSec = Math.max(1, Math.floor((Date.now() - startTime) / 1000));
+            const timeFormatted = formatTime(elapsedSec);
+            const scoreTen = (correctCount / total * 10).toFixed(1);
+
+            // Add history
+            const now = new Date();
+            const dateStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} - ${now.getDate()}/${now.getMonth()+1}`;
+            
+            historyLog.unshift({
+                date: dateStr,
+                mode: currentPartTitle,
+                score: `${scoreTen}/10`,
+                correct: correctCount,
+                total: total,
+                time: timeFormatted
+            });
+            historyLog = historyLog.slice(0, 30);
+            localStorage.setItem(STORAGE_HISTORY, JSON.stringify(historyLog));
+
+            // Mark part complete if 100% correct
+            if (quizMode === 'part' && correctCount === total) {
+                completedParts.add(currentPartTitle);
+                localStorage.setItem(STORAGE_COMPLETED, JSON.stringify([...completedParts]));
+            }
+
+            // Render result screen
+            $('finalScore').textContent = `${scoreTen}/10`;
+            $('finalCorrect').textContent = `${correctCount}/${total}`;
+            $('finalTime').textContent = timeFormatted;
+
+            let msg = "";
+            if (scoreTen >= 9) {
+                msg = "🎉 <b>Xuất sắc!</b> Bạn đã nắm rất vững các quy định của Luật Đấu thầu.";
+            } else if (scoreTen >= 7) {
+                msg = "👍 <b>Kết quả Tốt!</b> Bạn chỉ cần rà soát lại một vài câu lý thuyết còn nhầm lẫn.";
+            } else {
+                msg = "💪 <b>Cần cố gắng thêm!</b> Hãy bấm nút Luyện lại câu sai bên dưới để củng cố kiến thức.";
+            }
+            if (isTimeout) msg = "⏰ <b>Đã hết thời gian thi thử!</b> Hệ thống đã tự động nộp bài của bạn.<br>" + msg;
+            
+            $('resultMessage').innerHTML = msg;
+
+            switchView('result');
+        }
+
+        // 5. SEARCH & EXPORT FUNCTIONS
+        function handleSearch(term) {
+            const container = $('searchResults');
+            if (!term.trim()) {
+                container.innerHTML = `<p class="text-center text-slate-400 text-sm py-8">Nhập từ khóa để bắt đầu tra cứu trong 25 câu hỏi...</p>`;
+                return;
+            }
+
+            const results = BANK.filter(q => 
+                q.question.toLowerCase().includes(term.toLowerCase()) ||
+                q.options.some(opt => opt.toLowerCase().includes(term.toLowerCase()))
+            );
+
+            if (results.length === 0) {
+                container.innerHTML = `<p class="text-center text-rose-500 text-sm py-8">Không tìm thấy câu hỏi nào phù hợp với từ khóa "${term}".</p>`;
+                return;
+            }
+
+            container.innerHTML = results.map((q, idx) => `
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-400">
+                        <span>Câu #${q.id} · ${q.chapter}</span>
+                        <span class="text-emerald-600 dark:text-emerald-400">Đán án đúng: ${LETTERS[q.answer]}</span>
+                    </div>
+                    <p class="font-bold text-slate-800 dark:text-white text-sm">${q.question}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2">
+                        ${q.options.map((opt, oIdx) => `
+                            <div class="p-2 rounded-lg ${oIdx === q.answer ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200 font-bold' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300'}">
+                                <b>${LETTERS[oIdx]}.</b> ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function exportCSV() {
+            let csvContent = "\ufeffMã câu;Phần học;Nội dung câu hỏi;Phương án A;Phương án B;Phương án C;Phương án D;Đáp án đúng\n";
+            BANK.forEach(q => {
+                const row = [
+                    q.id,
+                    q.chapter,
+                    q.question,
+                    q.options[0] || '',
+                    q.options[1] || '',
+                    q.options[2] || '',
+                    q.options[3] || '',
+                    LETTERS[q.answer]
+                ].map(v => `"${String(v).replaceAll('"', '""')}"`).join(';');
+                csvContent += row + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ngan_hang_cau_hoi_luat_dau_thau_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 6. EVENT LISTENERS ATTACHMENT
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+
+            // Theme Toggle
+            $('themeToggleBtn').onclick = () => {
+                document.documentElement.classList.toggle('dark');
+            };
+
+            // Quiz navigation buttons
+            $('prevQuestionBtn').onclick = () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    renderQuestion();
+                }
+            };
+
+            $('nextQuestionBtn').onclick = () => {
+                if (currentIndex < currentQuestions.length - 1) {
+                    currentIndex++;
+                    renderQuestion();
+                } else {
+                    finishQuiz();
+                }
+            };
+
+            $('exitQuizBtn').onclick = () => {
+                if (confirm('Bạn có chắc chắn muốn thoát lượt thi này?')) {
+                    switchView('home');
+                }
+            };
+
+            $('shuffleOptionsBtn').onclick = () => {
+                const qId = currentQuestions[currentIndex].id;
+                currentOptionsOrder[qId] = shuffled(currentOptionsOrder[qId] || [0, 1, 2, 3]);
+                renderQuestion();
+            };
+
+            // Quick mode buttons
+            $('randomQuizBtn').onclick = () => {
+                startQuiz(shuffled(BANK).slice(0, 15), 'Đề Ngẫu Nhiên (15 câu)', 'random');
+            };
+
+            $('mockExamBtn').onclick = () => {
+                startQuiz(shuffled(BANK), 'Thi Thử Toàn Bộ (25 câu)', 'mock');
+            };
+
+            $('wrongQuizBtn').onclick = () => {
+                const wrongQuestions = BANK.filter(q => wrongSet.has(q.id));
+                if (wrongQuestions.length === 0) {
+                    alert('Bạn chưa có câu hỏi làm sai nào trong danh sách!');
+                    return;
+                }
+                startQuiz(wrongQuestions, 'Luyện Câu Làm Sai', 'wrong');
+            };
+
+            // Result Screen Actions
+            $('backHomeBtn').onclick = () => switchView('home');
+            $('retryWrongBtn').onclick = () => {
+                const wrongQuestions = BANK.filter(q => wrongSet.has(q.id));
+                if (wrongQuestions.length === 0) {
+                    alert('Không có câu làm sai nào!');
+                    switchView('home');
+                    return;
+                }
+                startQuiz(wrongQuestions, 'Luyện Câu Làm Sai', 'wrong');
+            };
+
+            // History Clear
+            $('clearHistoryBtn').onclick = () => {
+                if (confirm('Xóa sạch lịch sử các lượt thi?')) {
+                    historyLog = [];
+                    localStorage.removeItem(STORAGE_HISTORY);
+                    renderHome();
+                }
+            };
+
+            // Search Modal Events
+            $('searchBtn').onclick = () => {
+                $('searchModal').classList.remove('hidden');
+                $('searchInput').focus();
+            };
+            $('closeSearchBtn').onclick = () => {
+                $('searchModal').classList.add('hidden');
+            };
+            $('searchInput').oninput = (e) => handleSearch(e.target.value);
+
+            // Export CSV
+            $('exportBtn').onclick = exportCSV;
+        });
+    </script>
+</body>
+</html>
